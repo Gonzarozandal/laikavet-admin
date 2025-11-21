@@ -2,7 +2,7 @@
 function MascotasPage() {
   return (
     <div>
-      <p>aca van las mascotitas</p>
+      <p>aca van las mascototas</p>
     </div>
   );
 }
