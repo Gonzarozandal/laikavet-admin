@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function FormPaciente({ onSubmit, onCancel }) {
-  const [formData, setFormData] = useState({ 
+function FormPaciente({ onSubmit, onCancel, propietario }) {
+  const [formData, setFormData] = useState({
     nombreDueno: '',
+    apellidoDueno: '',
     telefono: '',
     email: '',
     direccion: '',
@@ -10,15 +11,31 @@ function FormPaciente({ onSubmit, onCancel }) {
     ciudad: ''
   });
 
+  // Cargar datos cuando estamos editando
+  useEffect(() => {
+    if (propietario) {
+      setFormData({
+        nombreDueno: propietario.nombreDueno || '',
+        apellidoDueno: propietario.apellidoDueno || '',
+        telefono: propietario.telefono || '',
+        email: propietario.email || '',
+        direccion: propietario.direccion || '',
+        dni: propietario.dni || '',
+        ciudad: propietario.ciudad || ''
+      });
+    }
+  }, [propietario]);
+
   const handleChange = (e) => {
     setFormData({
-      ...formData, [e.target.name]: e.target.value 
+      ...formData,
+      [e.target.name]: e.target.value
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData); //
+    onSubmit(formData);
   };
 
   return (
@@ -26,35 +43,52 @@ function FormPaciente({ onSubmit, onCancel }) {
       {/* Header */}
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Nuevo Propietario
+          {propietario ? 'Editar Propietario' : 'Nuevo Propietario'}
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Completa la información del propietario
+          {propietario ? 'Modifica la información del propietario' : 'Completa la información del propietario'}
         </p>
       </div>
 
       {/* Form Body */}
       <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
-        {/* Nombre Completo */}
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Nombre Completo *
-          </label>
-          <input
-            type="text"
-            name="nombreDueno"
-            value={formData.nombreDueno}
-            onChange={handleChange}
-            placeholder="Ej: Juan Pérez"
-            required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-          />
+        {/* Nombre y Apellido en dos columnas */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Nombre *
+            </label>
+            <input
+              type="text"
+              name="nombreDueno"
+              value={formData.nombreDueno}
+              onChange={handleChange}
+              placeholder="Ej: Juan"
+              required
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Apellido *
+            </label>
+            <input
+              type="text"
+              name="apellidoDueno"
+              value={formData.apellidoDueno}
+              onChange={handleChange}
+              placeholder="Ej: Pérez"
+              required
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            />
+          </div>
         </div>
 
         {/* DNI */}
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            DNI / Documento
+            DNI / Documento *
           </label>
           <input
             type="text"
@@ -62,6 +96,7 @@ function FormPaciente({ onSubmit, onCancel }) {
             value={formData.dni}
             onChange={handleChange}
             placeholder="Ej: 12345678"
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />
         </div>
@@ -85,7 +120,7 @@ function FormPaciente({ onSubmit, onCancel }) {
         {/* Email */}
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Email
+            Email *
           </label>
           <input
             type="email"
@@ -93,6 +128,7 @@ function FormPaciente({ onSubmit, onCancel }) {
             value={formData.email}
             onChange={handleChange}
             placeholder="Ej: correo@ejemplo.com"
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />
         </div>
@@ -100,7 +136,7 @@ function FormPaciente({ onSubmit, onCancel }) {
         {/* Dirección */}
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Dirección
+            Dirección *
           </label>
           <input
             type="text"
@@ -108,6 +144,7 @@ function FormPaciente({ onSubmit, onCancel }) {
             value={formData.direccion}
             onChange={handleChange}
             placeholder="Ej: Calle 123, Barrio Centro"
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />
         </div>
@@ -115,7 +152,7 @@ function FormPaciente({ onSubmit, onCancel }) {
         {/* Ciudad */}
         <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Ciudad
+            Ciudad *
           </label>
           <input
             type="text"
@@ -123,6 +160,7 @@ function FormPaciente({ onSubmit, onCancel }) {
             value={formData.ciudad}
             onChange={handleChange}
             placeholder="Ej: Buenos Aires"
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />
         </div>
@@ -141,7 +179,7 @@ function FormPaciente({ onSubmit, onCancel }) {
           type="submit"
           className="flex-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Agregar
+          {propietario ? 'Actualizar' : 'Agregar'}
         </button>
       </div>
     </form>
