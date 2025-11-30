@@ -10,6 +10,7 @@ function App() {
       <Route path="/HistorialClinicaPage" element={<HistorialClinicaPage />} />
       <Route path="/MascotasPage" element={<MascotasPage />} />
       <Route path="/FormUsersPage" element={<FormUsersPage />} />
+      
     </Routes>
   );
 }
