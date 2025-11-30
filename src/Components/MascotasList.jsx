@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import Modal from "./Modal";
 import MascotasEmpty from "./MascotasEmpty";
-import MascotasForm from "./MascotasForm";
+import MascotasFormModal from "./MascotasFormModal";
 import MascotasTable from "./MascotasTable";
 
 function MascotasList() {
   const [mascotas, setMascotas] = useState([]);
   const [query, setQuery] = useState("");
-  const [form, setForm] = useState({ nombre: "", especie: "", edad: "" });
-  const [open, setOpen] = useState(false); // controla si la sección se muestra
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mascotaEditando, setMascotaEditando] = useState(null);
+  const [showList, setShowList] = useState(false);
 
   useEffect(() => {
     try {
@@ -26,25 +28,38 @@ function MascotasList() {
     }
   }, [mascotas]);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (!form.nombre.trim()) return;
-    const nueva = {
-      id: Date.now(),
-      nombre: form.nombre.trim(),
-      especie: form.especie.trim(),
-      edad: form.edad.trim(),
-    };
-    setMascotas([nueva, ...mascotas]);
-    setForm({ nombre: "", especie: "", edad: "" });
+  const handleDelete = (id) => {
+    if (!globalThis.confirm("¿Eliminar esta mascota?")) return;
+    setMascotas(mascotas.filter((m) => m.id !== id));
   };
 
-  const handleDelete = (id) => {
-    if (!window.confirm("¿Eliminar esta mascota?")) return;
-    setMascotas(mascotas.filter((m) => m.id !== id));
+  const handleOpenModal = () => {
+    setMascotaEditando(null);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setMascotaEditando(null);
+  };
+
+  const handleSubmit = (formData) => {
+    if (mascotaEditando) {
+      // Editar mascota existente
+      setMascotas(
+        mascotas.map((m) =>
+          m.id === mascotaEditando.id ? { ...m, ...formData } : m
+        )
+      );
+    } else {
+      // Crear nueva mascota
+      const nueva = {
+        id: Date.now(),
+        ...formData,
+      };
+      setMascotas([nueva, ...mascotas]);
+    }
+    handleCloseModal();
   };
 
   return (
@@ -65,12 +80,8 @@ function MascotasList() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
-              // abrir la sección y luego enfocar el input nombre
-              setOpen(true);
-              setTimeout(() => {
-                const el = document.querySelector('input[name="nombre"]');
-                if (el) el.focus();
-              }, 60);
+              setShowList(true);
+              handleOpenModal();
             }}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
@@ -93,8 +104,8 @@ function MascotasList() {
         </div>
       </header>
 
-      {/* la sección principal queda oculta hasta que `open` sea true */}
-      {!open ? (
+      {/* la sección principal queda oculta hasta que se haga click en agregar */}
+      {!showList ? (
         <MascotasEmpty />
       ) : (
         <div className="bg-slate-800 rounded-xl p-6">
@@ -107,11 +118,6 @@ function MascotasList() {
             />
           </div>
 
-          <MascotasForm
-            form={form}
-            onchange={handleChange}
-            onSubmit={handleAdd}
-          />
           <MascotasTable
             mascotas={mascotas}
             query={query}
@@ -119,6 +125,15 @@ function MascotasList() {
           />
         </div>
       )}
+
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <MascotasFormModal
+          onSubmit={handleSubmit}
+          onCancel={handleCloseModal}
+          mascota={mascotaEditando}
+        />
+      </Modal>
     </div>
   );
 }
