@@ -4,41 +4,49 @@ import { AuthContext } from "./AuthContext";
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const API_URL = "/api/auth";
 
   // Cargar usuario desde localStorage al montar
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    const token = localStorage.getItem("token");
+    if (storedUser && token) {
       try {
         setUser(JSON.parse(storedUser));
       } catch (error) {
         console.error("Error al cargar usuario:", error);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
       }
     }
     setIsLoading(false);
   }, []);
 
-  const register = async (email, password) => {
+  const register = async (email, password, nombre, apellido) => {
     try {
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const response = await fetch(`${API_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, nombre, apellido }),
+      });
 
-      if (users.some((u) => u.email === email)) {
-        throw new Error("El email ya está registrado");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error en el registro");
       }
 
-      const newUser = {
-        id: Date.now().toString(),
-        email,
-        password,
-      };
+      // Guardar sesión
+      const userData = data.data;
+      const token = data.token;
 
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", token);
 
       return {
         success: true,
-        message: "Registro exitoso. Ahora puedes iniciar sesión.",
+        message: "Registro exitoso",
       };
     } catch (error) {
       return { success: false, message: error.message };
@@ -47,19 +55,25 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const foundUser = users.find(
-        (u) => u.email === email && u.password === password
-      );
+      const data = await response.json();
 
-      if (!foundUser) {
-        throw new Error("Email o contraseña incorrectos");
+      if (!response.ok) {
+        throw new Error(data.message || "Error al iniciar sesión");
       }
 
-      const userWithoutPassword = { id: foundUser.id, email: foundUser.email };
-      setUser(userWithoutPassword);
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
+      // Guardar sesión
+      const userData = data.data;
+      const token = data.token;
+
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", token);
 
       return { success: true };
     } catch (error) {
@@ -70,6 +84,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   const value = useMemo(

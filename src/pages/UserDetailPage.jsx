@@ -14,7 +14,7 @@ function UserDetailPage() {
     try {
       // Obtener datos del usuario
       const userResponse = await fetch(
-        `http://localhost:3000/api/duenos/${userId}`
+        `/api/tutores/${userId}`
       );
       if (userResponse.ok) {
         const userData = await userResponse.json();
@@ -24,21 +24,14 @@ function UserDetailPage() {
       // Obtener mascotas del usuario (si existe endpoint)
       try {
         const mascotasResponse = await fetch(
-          `http://localhost:3000/api/mascotas?dueno=${userId}`
+          `/api/pacientes?tutor=${userId}`
         );
         if (mascotasResponse.ok) {
           const mascotasData = await mascotasResponse.json();
-          setMascotas(mascotasData);
+          setMascotas(mascotasData.data || []);
         }
       } catch (error) {
         console.warn("No se pudo cargar mascotas:", error);
-        // Si no existe endpoint de mascotas, obtenerlas de localStorage
-        const stored = localStorage.getItem("mascotas");
-        if (stored) {
-          const allMascotas = JSON.parse(stored);
-          // Filtrar por usuario si está disponible
-          setMascotas(allMascotas);
-        }
       }
     } catch (error) {
       console.error("Error al cargar datos:", error);
@@ -53,7 +46,7 @@ function UserDetailPage() {
   }, [fetchUserData]);
 
   const handleVolver = () => {
-    navigate("/historial-clinico");
+    navigate("/HistorialClinicaPage");
   };
 
   if (isLoading) {

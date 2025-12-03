@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 function FormPaciente({ onSubmit, onCancel, propietario }) {
   const [formData, setFormData] = useState({
-    nombreDueno: '',
-    apellidoDueno: '',
+    nombre: '',
+    apellido: '',
     telefono: '',
     email: '',
     direccion: '',
@@ -15,8 +15,8 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
   useEffect(() => {
     if (propietario) {
       setFormData({
-        nombreDueno: propietario.nombreDueno || '',
-        apellidoDueno: propietario.apellidoDueno || '',
+        nombre: propietario.nombre || '',
+        apellido: propietario.apellido || '',
         telefono: propietario.telefono || '',
         email: propietario.email || '',
         direccion: propietario.direccion || '',
@@ -60,8 +60,8 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
             </label>
             <input
               type="text"
-              name="nombreDueno"
-              value={formData.nombreDueno}
+              name="nombre"
+              value={formData.nombre}
               onChange={handleChange}
               placeholder="Ej: Juan"
               required
@@ -75,8 +75,8 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
             </label>
             <input
               type="text"
-              name="apellidoDueno"
-              value={formData.apellidoDueno}
+              name="apellido"
+              value={formData.apellido}
               onChange={handleChange}
               placeholder="Ej: Pérez"
               required
@@ -168,14 +168,14 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
 
       {/* Footer con botones */}
       <div className="flex items-center gap-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-600">
-        <button 
-          type="button" 
+        <button
+          type="button"
           onClick={onCancel}
           className="flex-1 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         >
           Cancelar
         </button>
-        <button 
+        <button
           type="submit"
           className="flex-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >

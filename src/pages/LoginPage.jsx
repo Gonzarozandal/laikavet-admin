@@ -5,6 +5,8 @@ import { useAuth } from "../context/useAuth";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +22,7 @@ function LoginPage() {
       let result;
 
       if (isRegister) {
-        result = await register(email, password);
+        result = await register(email, password, nombre, apellido);
         if (result.success) {
           setMessage("✅ Registro exitoso. Cambiando a iniciar sesión...");
           setTimeout(() => {
@@ -76,11 +78,10 @@ function LoginPage() {
           {/* Mensaje de estado */}
           {message && (
             <div
-              className={`mb-4 p-3 rounded-lg text-sm ${
-                message.includes("✅")
-                  ? "bg-green-900 text-green-200"
-                  : "bg-red-900 text-red-200"
-              }`}
+              className={`mb-4 p-3 rounded-lg text-sm ${message.includes("✅")
+                ? "bg-green-900 text-green-200"
+                : "bg-red-900 text-red-200"
+                }`}
             >
               {message}
             </div>
@@ -88,6 +89,38 @@ function LoginPage() {
 
           {/* Formulario */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Nombre y Apellido (Solo Registro) */}
+            {isRegister && (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Nombre
+                  </label>
+                  <input
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Juan"
+                    required
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Apellido
+                  </label>
+                  <input
+                    type="text"
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
+                    placeholder="Pérez"
+                    required
+                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">

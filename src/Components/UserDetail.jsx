@@ -3,13 +3,13 @@ function UserDetail({ usuario }) {
     <div className="bg-gray-800 rounded-lg shadow-lg p-6">
       <div className="flex justify-center mb-4">
         <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-4xl font-bold">
-          {(usuario.nombreDueno?.[0] || "U").toUpperCase()}
-          {(usuario.apellidoDueno?.[0] || "U").toUpperCase()}
+          {(usuario.nombre?.[0] || "U").toUpperCase()}
+          {(usuario.apellido?.[0] || "U").toUpperCase()}
         </div>
       </div>
 
       <h2 className="text-2xl font-bold text-white text-center mb-6">
-        {usuario.nombreDueno} {usuario.apellidoDueno}
+        {usuario.nombre} {usuario.apellido}
       </h2>
 
       <div className="space-y-4">

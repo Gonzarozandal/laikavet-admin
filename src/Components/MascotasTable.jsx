@@ -24,6 +24,11 @@ function MascotasTable({ mascotas, query, onDelete }) {
                   {m.nombre}{" "}
                   <span className="text-sm text-gray-400">({m.especie})</span>
                 </div>
+                {m.tutor && (
+                  <div className="text-sm text-blue-400">
+                    Dueño: {m.tutor.nombre} {m.tutor.apellido}
+                  </div>
+                )}
                 {m.edad && (
                   <div className="text-sm text-gray-400">Edad: {m.edad}</div>
                 )}

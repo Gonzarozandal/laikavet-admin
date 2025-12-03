@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 
-function MascotasFormModal({ onSubmit, onCancel, mascota }) {
+function MascotasFormModal({ onSubmit, onCancel, mascota, tutores = [] }) {
   const [formData, setFormData] = useState({
     nombre: "",
     especie: "",
     edad: "",
+    tutor: "",
   });
 
   // Cargar datos cuando estamos editando
@@ -14,6 +15,7 @@ function MascotasFormModal({ onSubmit, onCancel, mascota }) {
         nombre: mascota.nombre || "",
         especie: mascota.especie || "",
         edad: mascota.edad || "",
+        tutor: mascota.tutor?._id || mascota.tutor || "",
       });
     }
   }, [mascota]);
@@ -28,6 +30,10 @@ function MascotasFormModal({ onSubmit, onCancel, mascota }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.nombre.trim()) return;
+    if (!formData.tutor) {
+      alert("Debes seleccionar un tutor");
+      return;
+    }
     onSubmit(formData);
   };
 
@@ -92,6 +98,27 @@ function MascotasFormModal({ onSubmit, onCancel, mascota }) {
             placeholder="Ej: 3 años"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />
+        </div>
+
+        {/* Tutor */}
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Tutor (Dueño) *
+          </label>
+          <select
+            name="tutor"
+            value={formData.tutor}
+            onChange={handleChange}
+            required
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+          >
+            <option value="">Selecciona un tutor</option>
+            {tutores.map((t) => (
+              <option key={t._id || t.id} value={t._id || t.id}>
+                {t.nombre} {t.apellido} - {t.dni}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 

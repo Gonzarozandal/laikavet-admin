@@ -20,12 +20,12 @@ function HistorialClinica() {
   const fetchPropietarios = async () => {
     console.log("🔍 Cargando propietarios...");
     try {
-      const response = await fetch("http://localhost:3000/api/duenos/");
+      const response = await fetch("/api/tutores/");
 
       if (response.ok) {
         const data = await response.json();
         console.log("✅ Datos recibidos:", data);
-        setPropietarios(data);
+        setPropietarios(data.data || data); // Handle { success: true, data: [...] } or [...]
       } else {
         console.error("❌ Error al cargar. Status:", response.status);
       }
@@ -54,8 +54,7 @@ function HistorialClinica() {
       // Si estamos editando
       if (propietarioEditando) {
         const response = await fetch(
-          `http://localhost:3000/api/duenos/${
-            propietarioEditando._id || propietarioEditando.id
+          `/api/tutores/${propietarioEditando._id || propietarioEditando.id
           }`,
           {
             method: "PUT",
@@ -70,7 +69,7 @@ function HistorialClinica() {
           const data = await response.json();
           console.log("✅ Propietario actualizado:", data);
           await fetchPropietarios();
-          alert("✅ Propietario actualizado exitosamente!");
+          // alert("✅ Propietario actualizado exitosamente!");
           handleCloseModal();
         } else {
           const errorData = await response.json();
@@ -80,7 +79,7 @@ function HistorialClinica() {
       }
       // Si estamos creando uno nuevo
       else {
-        const response = await fetch("http://localhost:3000/api/duenos/", {
+        const response = await fetch("/api/tutores/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +91,7 @@ function HistorialClinica() {
           const data = await response.json();
           console.log("✅ Propietario creado:", data);
           await fetchPropietarios();
-          alert("✅ Propietario guardado exitosamente!");
+          // alert("✅ Propietario guardado exitosamente!");
           handleCloseModal();
         } else {
           const errorData = await response.json();
@@ -116,14 +115,14 @@ function HistorialClinica() {
 
     if (window.confirm("¿Estás seguro de eliminar este propietario?")) {
       try {
-        const response = await fetch(`http://localhost:3000/api/duenos/${id}`, {
+        const response = await fetch(`/api/tutores/${id}`, {
           method: "DELETE",
         });
 
         if (response.ok) {
           console.log("✅ Eliminado");
           await fetchPropietarios();
-          alert("✅ Propietario eliminado!");
+          // alert("✅ Propietario eliminado!");
         } else {
           const errorData = await response.json();
           console.error("❌ Error:", errorData);
@@ -149,8 +148,8 @@ function HistorialClinica() {
   const propietariosFiltrados = propietarios.filter((propietario) => {
     const searchLower = searchTerm.toLowerCase();
     return (
-      propietario.nombreDueno?.toLowerCase().includes(searchLower) ||
-      propietario.apellidoDueno?.toLowerCase().includes(searchLower) ||
+      propietario.nombre?.toLowerCase().includes(searchLower) ||
+      propietario.apellido?.toLowerCase().includes(searchLower) ||
       propietario.dni?.toLowerCase().includes(searchLower)
     );
   });
@@ -316,17 +315,17 @@ function HistorialClinica() {
                       <div className="flex items-center gap-4 flex-1 min-w-0">
                         {/* Avatar */}
                         <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
-                          {(propietario.nombreDueno?.[0] || "U").toUpperCase()}
+                          {(propietario.nombre?.[0] || "U").toUpperCase()}
                           {(
-                            propietario.apellidoDueno?.[0] || "U"
+                            propietario.apellido?.[0] || "U"
                           ).toUpperCase()}
                         </div>
 
                         {/* Nombre y DNI */}
                         <div className="flex-1 min-w-0">
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
-                            {propietario.nombreDueno}{" "}
-                            {propietario.apellidoDueno}
+                            {propietario.nombre}{" "}
+                            {propietario.apellido}
                           </h3>
                           {propietario.dni && (
                             <p className="text-sm text-gray-500 dark:text-gray-400">
