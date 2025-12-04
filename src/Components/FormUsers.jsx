@@ -24,7 +24,7 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
         ciudad: propietario.ciudad || ''
       });
     }
-  }, [propietario]);
+  }, [propietario]);//esto es para que cuando se cargue el formulario, se cargue los datos del propietario
 
   const handleChange = (e) => {
     setFormData({
@@ -159,7 +159,7 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
             name="ciudad"
             value={formData.ciudad}
             onChange={handleChange}
-            placeholder="Ej: Buenos Aires"
+            placeholder="Ej: Villa Mercedes"
             required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
           />

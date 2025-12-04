@@ -28,7 +28,7 @@ function UserMascotas({ mascotas, usuarioId, onMascotasChange }) {
     setFormData({
       nombre: mascota.nombre,
       especie: mascota.especie,
-      edad: mascota.edad || "", // Assuming backend might not have age or it's date of birth
+      edad: mascota.edad || "",
       sexo: mascota.sexo || "Macho",
       esteril: mascota.esteril || false,
     });

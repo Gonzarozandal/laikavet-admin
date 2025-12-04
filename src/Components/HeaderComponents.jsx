@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 
-function HeaderComponents() {
+function HeaderComponents() {//funcion que retorna un div con un logo y un boton, un div es un contenedor
     return (
         <div className="flex flex-col items-center justify-center h-screen w-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 fixed top-0 left-0 overflow-hidden">
             {/* Logo/Título principal */}
             <div className="mb-12 text-center">
                 <div className="flex items-center justify-center mb-4">
-                    <span className="text-6xl mb-2">🐾</span>
+                    <span className="text-6xl mb-2">🐾</span>/*la etiqueta span es para agregar un elemento*/
                 </div>
                 <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-3">
                     LaikaVet
-                </h1>
+                </h1>/*la etiqueta h1 es para agregar un titulo*/
                 <p className="text-lg text-gray-600 dark:text-gray-400">
                     Sistema de Gestión Veterinaria
                 </p>
@@ -23,7 +23,7 @@ function HeaderComponents() {
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Acceder a LaikaVet
+                        LaikaVet
                     </span>
                 </button>
             </Link>

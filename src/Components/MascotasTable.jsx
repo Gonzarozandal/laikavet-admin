@@ -1,4 +1,4 @@
-function MascotasTable({ mascotas, query, onDelete }) {
+function MascotasTable({ mascotas, query, onDelete }) {//funcion que se encarga de mostrar la tabla de mascotas
   const filtered = mascotas.filter((m) => {
     const q = query.toLowerCase();
     return (

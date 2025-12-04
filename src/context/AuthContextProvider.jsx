@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { AuthContext } from "./AuthContext";
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }) {//funcion que se encarga de manejar el estado de la autenticacion
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const API_URL = "/api/auth";
@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const register = async (email, password, nombre, apellido) => {
+  const register = async (email, password, nombre, apellido) => {//funcion que se encarga de registrar un usuario
     try {
       const response = await fetch(`${API_URL}/register`, {
         method: "POST",
@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (email, password) => {//funcion que se encarga de iniciar sesion
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
+  const logout = () => {//funcion que se encarga de cerrar sesion
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");

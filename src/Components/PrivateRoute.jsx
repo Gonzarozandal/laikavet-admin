@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 
-function PrivateRoute({ children }) {
+function PrivateRoute({ children }) {//funcion que se encarga de mostrar el modal
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
@@ -26,7 +26,7 @@ function PrivateRoute({ children }) {
               fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
-          </svg>
+          </svg>//svg es un icono de carga
           <p className="text-white">Cargando...</p>
         </div>
       </div>

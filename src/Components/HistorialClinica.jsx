@@ -13,11 +13,11 @@ function HistorialClinica() {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
-  useEffect(() => {
+  useEffect(() => {//useEffect es un hook que se ejecuta cuando el componente se monta, en este caso cuando se carga la pagina
     fetchPropietarios();
   }, []);
 
-  const fetchPropietarios = async () => {
+  const fetchPropietarios = async () => {//funcion que se encarga de cargar los propietarios
     console.log("🔍 Cargando propietarios...");
     try {
       const response = await fetch("/api/tutores/");
@@ -37,17 +37,17 @@ function HistorialClinica() {
     }
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = () => {//funcion que se encarga de abrir el modal
     setPropietarioEditando(null); // Limpiar cualquier dato de edición
     setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () => {//funcion que se encarga de cerrar el modal
     setIsModalOpen(false);
     setPropietarioEditando(null);
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (formData) => {//funcion que se encarga de enviar los datos del formulario
     console.log("📤 Datos a enviar:", formData);
 
     try {

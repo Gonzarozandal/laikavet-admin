@@ -1,4 +1,4 @@
-function MascotasForm({ form, onchange, onSubmit }) {
+function MascotasForm({ form, onchange, onSubmit }) {//funcion que se encarga de mostrar el formulario
   return (
     <form
       onSubmit={onSubmit}

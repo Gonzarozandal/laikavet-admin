@@ -9,7 +9,7 @@ function MascotasFormModal({ onSubmit, onCancel, mascota, tutores = [] }) {
   });
 
   // Cargar datos cuando estamos editando
-  useEffect(() => {
+  useEffect(() => {//useEffect es un hook que se ejecuta cuando el componente se monta, en este caso cuando se carga la pagina
     if (mascota) {
       setFormData({
         nombre: mascota.nombre || "",
