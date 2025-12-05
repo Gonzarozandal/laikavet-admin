@@ -26,7 +26,7 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
     }
   }, [propietario]);//esto es para que cuando se cargue el formulario, se cargue los datos del propietario
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { 
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -34,8 +34,8 @@ function FormPaciente({ onSubmit, onCancel, propietario }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
+    e.preventDefault(); 
+    onSubmit(formData); 
   };
 
   return (

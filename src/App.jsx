@@ -17,7 +17,7 @@ function App() {
         element={
           <PrivateRoute>
             <HistorialClinicaPage />
-          </PrivateRoute>
+          </PrivateRoute> 
         }
       />
       <Route

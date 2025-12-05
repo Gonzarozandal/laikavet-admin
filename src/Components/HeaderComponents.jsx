@@ -4,13 +4,13 @@ function HeaderComponents() {//funcion que retorna un div con un logo y un boton
     return (
         <div className="flex flex-col items-center justify-center h-screen w-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 fixed top-0 left-0 overflow-hidden">
             {/* Logo/Título principal */}
-            <div className="mb-12 text-center">
+            <div className="mb-12 text-center"> 
                 <div className="flex items-center justify-center mb-4">
-                    <span className="text-6xl mb-2">🐾</span>/*la etiqueta span es para agregar un elemento*/
-                </div>
+                    <span className="text-6xl mb-2">🐾</span>  {/*la etiqueta span es para agregar un elemento*/}
+                </div>     
                 <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-3">
                     LaikaVet
-                </h1>/*la etiqueta h1 es para agregar un titulo*/
+                </h1>{/*la etiqueta h1 es para agregar un titulo*/}
                 <p className="text-lg text-gray-600 dark:text-gray-400">
                     Sistema de Gestión Veterinaria
                 </p>
